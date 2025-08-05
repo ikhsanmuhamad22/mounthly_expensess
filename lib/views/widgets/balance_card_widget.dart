@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/views/pages/balance_page.dart';
 
 class BalanceCardWidget extends StatelessWidget {
   const BalanceCardWidget({super.key});
@@ -6,11 +7,11 @@ class BalanceCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Card(
         child: SizedBox(
           width: double.infinity,
-          height: 150,
+          height: 160,
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
@@ -30,7 +31,17 @@ class BalanceCardWidget extends StatelessWidget {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      Icon(Icons.add_chart),
+                      IconButton(
+                        icon: Icon(Icons.add_chart),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BalancePage(),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

@@ -12,7 +12,6 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('keuanganmu'),
-
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -27,7 +26,7 @@ class MainPage extends StatelessWidget {
         actionsPadding: EdgeInsets.only(right: 10),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             BalanceCardWidget(),
@@ -49,11 +48,11 @@ class MainPage extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: 20,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 4),
-                    child: ModailDetailExp(),
+                    child: ModalDetailExp(),
                   );
                 },
               ),

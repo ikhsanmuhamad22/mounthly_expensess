@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ModailDetailExp extends StatelessWidget {
-  const ModailDetailExp({super.key});
+class ModalDetailExp extends StatelessWidget {
+  const ModalDetailExp({super.key});
 
   @override
   Widget build(BuildContext context) {
