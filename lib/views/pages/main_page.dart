@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/views/pages/setting_page.dart';
 import 'package:mounthly_expenses/views/widgets/balance_card_widget.dart';
 import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
 import 'package:mounthly_expenses/views/widgets/modal_add_exp.dart';
@@ -11,12 +12,19 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('keuanganmu'),
+
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Icon(Icons.settings),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingPage()),
+              );
+            },
           ),
         ],
+        actionsPadding: EdgeInsets.only(right: 10),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

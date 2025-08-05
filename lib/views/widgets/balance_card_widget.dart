@@ -25,12 +25,12 @@ class BalanceCardWidget extends StatelessWidget {
                       Text(
                         'Saldo mu',
                         style: TextStyle(
-                          color: Colors.white60,
+                          color: Colors.blueGrey,
                           fontSize: 16,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      Icon(Icons.add),
+                      Icon(Icons.add_chart),
                     ],
                   ),
                 ),
@@ -38,7 +38,7 @@ class BalanceCardWidget extends StatelessWidget {
                   '3.000.000',
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),
-                Text('Rupiah', style: TextStyle(color: Colors.white54)),
+                Text('Rupiah', style: TextStyle(color: Colors.blueGrey)),
               ],
             ),
           ),

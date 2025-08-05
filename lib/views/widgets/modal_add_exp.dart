@@ -12,7 +12,7 @@ class ModalAddExp extends StatelessWidget {
           builder: (context) {
             return Container(
               padding: EdgeInsets.all(16.0),
-              height: 300,
+              height: 370,
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(10),
@@ -31,6 +31,9 @@ class ModalAddExp extends StatelessWidget {
                     SizedBox(height: 10),
                     customFieldText('Buat Apa ?'),
                     customFieldText('Berapa ?'),
+                    SizedBox(height: 10),
+                    custemSelectCategory(),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -69,24 +72,52 @@ Widget customFieldText(String title) {
     child: TextField(
       decoration: InputDecoration(
         hintText: title,
-        hintStyle: TextStyle(
-          fontFamily: 'IndieFlower', // Gaya tulisan tangan
-          fontSize: 18,
-        ),
+        hintStyle: TextStyle(fontSize: 16),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Colors.black, width: 1.5),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(width: 1.5),
         ),
       ),
     ),
+  );
+}
+
+final List<String> categories = [
+  'Makanan',
+  'Transportasi',
+  'Belanja',
+  'Hiburan',
+  'Tagihan',
+  'Kesehatan',
+  'Lainnya',
+];
+
+Widget custemSelectCategory() {
+  return DropdownButtonFormField<String>(
+    value: categories.first,
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey),
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    ),
+    items:
+        categories.map((category) {
+          return DropdownMenuItem<String>(
+            value: category,
+            child: Text(category),
+          );
+        }).toList(),
+    onChanged: (value) {},
   );
 }
