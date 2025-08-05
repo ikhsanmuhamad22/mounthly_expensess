@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/views/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,18 +14,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueGrey,
+          brightness: Brightness.dark,
+        ),
       ),
       home: const MainPage(),
     );
-  }
-}
-
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Screatch')));
   }
 }
