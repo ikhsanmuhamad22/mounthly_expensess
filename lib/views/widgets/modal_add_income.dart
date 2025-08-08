@@ -93,6 +93,7 @@ class _ModalAddIncomeState extends State<ModalAddIncome> {
 
                               setState(() {
                                 storage.saveTransaction(newIncome);
+                                storage.addToMainBalance(newIncome.amount);
                               });
 
                               Navigator.pop(context);

@@ -7,7 +7,7 @@ class LocalStorageService {
   static const _transactionsKey = 'transactions';
   static const _balanceKey = 'main_balance';
 
-  void saveTransaction(TransactionModel transaction) async {
+  Future<void> saveTransaction(TransactionModel transaction) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> existingData = prefs.getStringList('transactions') ?? [];
     existingData.add(jsonEncode(transaction.toJson()));
@@ -35,10 +35,22 @@ class LocalStorageService {
     final jsonString = prefs.getString(_balanceKey);
 
     if (jsonString == null) {
-      return MainBalance(totalIncome: 0, totalExpense: 0);
+      return MainBalance(amount: 0); // Default awal
     }
 
-    final Map<String, dynamic> decoded = jsonDecode(jsonString);
-    return MainBalance.fromJson(decoded);
+    final jsonData = jsonDecode(jsonString);
+    return MainBalance.fromJson(jsonData);
+  }
+
+  Future<void> addToMainBalance(double value) async {
+    MainBalance currentBalance = await loadMainBalance();
+    currentBalance.amount += value;
+    await saveMainBalance(currentBalance);
+  }
+
+  Future<void> subtractFromMainBalance(double value) async {
+    MainBalance currentBalance = await loadMainBalance();
+    currentBalance.amount -= value;
+    await saveMainBalance(currentBalance);
   }
 }

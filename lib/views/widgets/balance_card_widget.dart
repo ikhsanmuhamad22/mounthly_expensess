@@ -59,12 +59,9 @@ class BalanceCardWidget extends StatelessWidget {
                     if (snapshot.data == null) {
                       return Center(child: Text('Kosong'));
                     }
-                    print(
-                      'main balance saya ${snapshot.data?.totalExpense}  ${snapshot.data?.totalIncome}',
-                    );
 
                     return Text(
-                      formatCurrency.format(snapshot.data?.balance),
+                      formatCurrency.format(snapshot.data?.amount),
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,

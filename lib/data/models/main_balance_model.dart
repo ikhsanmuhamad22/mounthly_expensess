@@ -1,19 +1,11 @@
 class MainBalance {
-  double totalIncome;
-  double totalExpense;
+  double amount;
 
-  MainBalance({required this.totalIncome, required this.totalExpense});
+  MainBalance({required this.amount});
 
-  double get balance => totalIncome - totalExpense;
+  Map<String, dynamic> toJson() => {'amount': amount};
 
   factory MainBalance.fromJson(Map<String, dynamic> json) {
-    return MainBalance(
-      totalIncome: (json['totalIncome'] as num).toDouble(),
-      totalExpense: (json['totalExpense'] as num).toDouble(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'totalIncome': totalIncome, 'totalExpense': totalExpense};
+    return MainBalance(amount: json['amount']);
   }
 }

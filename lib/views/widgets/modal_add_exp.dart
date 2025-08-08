@@ -110,6 +110,9 @@ class _ModalAddExpState extends State<ModalAddExp> {
                               );
                               setState(() {
                                 storage.saveTransaction(newExpense);
+                                storage.subtractFromMainBalance(
+                                  newExpense.amount,
+                                );
                               });
 
                               Navigator.pop(context);
