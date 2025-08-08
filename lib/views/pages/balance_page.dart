@@ -1,6 +1,9 @@
 import 'package:awesome_circular_chart/awesome_circular_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mounthly_expenses/views/widgets/modal_add_exp.dart';
+import 'package:mounthly_expenses/data/models/tx_model.dart';
+import 'package:mounthly_expenses/main.dart';
+import 'package:mounthly_expenses/views/widgets/modal_add_income.dart';
+import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
 
 final List<String> categories = [
   'Makanan',
@@ -99,11 +102,46 @@ class BalancePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Pengeluaranmu',
+                    'History isi saldo',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
                   ),
-                  ModalAddExp(),
+                  ModalAddIncome(),
                 ],
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: storage.loadTransactions(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Terjadi kesalahan: ${snapshot.error}'),
+                    );
+                  }
+
+                  final transactions = snapshot.data ?? [];
+                  final income =
+                      transactions
+                          .where((tx) => tx.type == TransactionType.income)
+                          .toList();
+
+                  if (income.isEmpty) {
+                    return Center(child: Text('Belum ada History'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: income.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        child: ModalDetailExp(
+                          transactions: income.elementAt(index),
+                          type: TransactionType.income,
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],

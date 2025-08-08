@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/data/utils/formatter.dart';
+import 'package:mounthly_expenses/main.dart';
 import 'package:mounthly_expenses/views/pages/balance_page.dart';
 
 class BalanceCardWidget extends StatelessWidget {
@@ -45,10 +47,32 @@ class BalanceCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  '3.000.000',
-                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                FutureBuilder(
+                  future: storage.loadMainBalance(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Terjadi kesalahan: ${snapshot.error}'),
+                      );
+                    }
+
+                    if (snapshot.data == null) {
+                      return Center(child: Text('Kosong'));
+                    }
+                    print(
+                      'main balance saya ${snapshot.data?.totalExpense}  ${snapshot.data?.totalIncome}',
+                    );
+
+                    return Text(
+                      formatCurrency.format(snapshot.data?.balance),
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
                 ),
+
                 Text('Rupiah', style: TextStyle(color: Colors.blueGrey)),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/views/pages/setting_page.dart';
 import 'package:mounthly_expenses/views/widgets/balance_card_widget.dart';
 import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
@@ -47,12 +48,36 @@ class MainPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 4),
-                    child: ModalDetailExp(),
+              child: FutureBuilder(
+                future: storage.loadTransactions(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Terjadi kesalahan: ${snapshot.error}'),
+                    );
+                  }
+
+                  final transactions = snapshot.data ?? [];
+                  final expense =
+                      transactions
+                          .where((tx) => tx.type == TransactionType.expense)
+                          .toList();
+
+                  if (transactions.isEmpty) {
+                    return Center(child: Text('Belum ada transaksi'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: expense.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        child: ModalDetailExp(
+                          transactions: expense.elementAt(index),
+                          type: TransactionType.expense,
+                        ),
+                      );
+                    },
                   );
                 },
               ),

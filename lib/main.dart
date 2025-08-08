@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/data/local_storage_service.dart';
 import 'package:mounthly_expenses/views/pages/main_page.dart';
+
+final storage = LocalStorageService();
 
 void main() {
   runApp(const MyApp());

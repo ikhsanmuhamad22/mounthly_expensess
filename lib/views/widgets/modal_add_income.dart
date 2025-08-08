@@ -1,76 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:mounthly_expenses/data/local_storage_service.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
+import 'package:mounthly_expenses/main.dart';
 import 'package:mounthly_expenses/views/widgets/custom_fieldText.dart';
 
-final storage = LocalStorageService();
-final List<String> categories = [
-  'Makanan',
-  'Transportasi',
-  'Belanja',
-  'Hiburan',
-  'Tagihan',
-  'Kesehatan',
-  'Lainnya',
-];
-
-class ModalAddExp extends StatefulWidget {
-  const ModalAddExp({super.key});
+class ModalAddIncome extends StatefulWidget {
+  const ModalAddIncome({super.key});
 
   @override
-  State<ModalAddExp> createState() => _ModalAddExpState();
+  State<ModalAddIncome> createState() => _ModalAddIncomeState();
 }
 
-class _ModalAddExpState extends State<ModalAddExp> {
+class _ModalAddIncomeState extends State<ModalAddIncome> {
   String generateId() {
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
 
-  TextEditingController controllerDetail = TextEditingController();
   TextEditingController controllerAmount = TextEditingController();
-  String selectedCategory = categories.first;
-
+  TextEditingController controllerDetail = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return IconButton(
+      icon: Icon(Icons.add),
+      onPressed: () {
         showBottomSheet(
           context: context,
           builder: (context) {
             return Container(
               padding: EdgeInsets.all(16.0),
-              height: 370,
+              height: 350,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: Text(
-                        'Tambah Pengeluaran',
+                        'Tambah Saldo',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     CustomFieldtext(
-                      title: 'Buat Apa ?',
-                      controller: controllerDetail,
-                    ),
-                    CustomFieldtext(
-                      title: 'Berapa ?',
+                      title: 'Berapa',
                       controller: controllerAmount,
                     ),
-                    SizedBox(height: 10),
-                    custemSelectCategory(selectedCategory, (value) {
-                      setState(() {
-                        selectedCategory = value;
-                      });
-                    }),
-                    SizedBox(height: 10),
+                    CustomFieldtext(
+                      title: 'Dari apa',
+                      controller: controllerDetail,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -86,30 +70,29 @@ class _ModalAddExpState extends State<ModalAddExp> {
                           flex: 5,
                           child: FilledButton(
                             onPressed: () {
-                              if (controllerDetail.text.isEmpty ||
-                                  controllerAmount.text.isEmpty) {
+                              if (controllerAmount.text.isEmpty ||
+                                  controllerDetail.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Harap isi detail dan nominal',
+                                      'Harap isi jumlah yang mau diisi',
                                     ),
                                   ),
                                 );
                                 return;
                               }
-
-                              final newExpense = TransactionModel(
+                              final newIncome = TransactionModel(
                                 id: generateId(),
                                 detail: controllerDetail.text,
                                 amount:
                                     double.tryParse(controllerAmount.text) ??
                                     0.0,
-                                category: selectedCategory,
                                 date: DateTime.now(),
-                                type: TransactionType.expense,
+                                type: TransactionType.income,
                               );
+
                               setState(() {
-                                storage.saveTransaction(newExpense);
+                                storage.saveTransaction(newIncome);
                               });
 
                               Navigator.pop(context);
@@ -126,32 +109,6 @@ class _ModalAddExpState extends State<ModalAddExp> {
           },
         );
       },
-      child: Icon(Icons.add),
     );
   }
-}
-
-Widget custemSelectCategory(String category, void Function(String) onChanged) {
-  return DropdownButtonFormField<String>(
-    value: categories.first,
-    decoration: InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey),
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    ),
-    items:
-        categories.map((category) {
-          return DropdownMenuItem<String>(
-            value: category,
-            child: Text(category),
-          );
-        }).toList(),
-    onChanged: (value) {
-      if (value != null) {
-        onChanged(value);
-      }
-    },
-  );
 }

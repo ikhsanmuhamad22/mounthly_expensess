@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mounthly_expenses/data/models/tx_model.dart';
+import 'package:mounthly_expenses/data/utils/formatter.dart';
 
 class ModalDetailExp extends StatelessWidget {
-  const ModalDetailExp({super.key});
+  const ModalDetailExp({
+    super.key,
+    required this.transactions,
+    required this.type,
+  });
+
+  final TransactionModel transactions;
+  final TransactionType type;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +46,18 @@ class ModalDetailExp extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Beli seblak', style: TextStyle(fontSize: 16)),
-                          Text('selasa 05 2005'),
+                          Text(
+                            transactions.detail,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(transactions.date.timeZoneName),
                         ],
                       ),
                     ),
-                    Text('-10.000', style: TextStyle(fontSize: 24)),
+                    Text(
+                      '- ${formatCurrency.format(transactions.amount)}',
+                      style: TextStyle(fontSize: 24),
+                    ),
                     SizedBox(height: 20),
 
                     Row(
@@ -63,9 +78,13 @@ class ModalDetailExp extends StatelessWidget {
         );
       },
       child: ListTile(
-        title: Text('jajan seblak'),
+        title: Text(transactions.detail),
         leading: Icon(Icons.folder_outlined),
-        trailing: Text('-20.000'),
+        trailing: Text(
+          type == TransactionType.expense
+              ? '- ${formatCurrency.format(transactions.amount)}'
+              : '+ ${formatCurrency.format(transactions.amount)}',
+        ),
       ),
     );
   }
