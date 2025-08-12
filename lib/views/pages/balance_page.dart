@@ -1,7 +1,8 @@
 import 'package:awesome_circular_chart/awesome_circular_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
-import 'package:mounthly_expenses/main.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 import 'package:mounthly_expenses/views/widgets/modal_add_income.dart';
 import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
 
@@ -15,13 +16,16 @@ final List<String> categories = [
   'Lainnya',
 ];
 
-class BalancePage extends StatelessWidget {
+class BalancePage extends ConsumerWidget {
   const BalancePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<AnimatedCircularChartState> chartKey =
         GlobalKey<AnimatedCircularChartState>();
+
+    var data = ref.watch(txProvider).tx;
+    var income = data.where((tx) => tx.type == TransactionType.income);
 
     return Scaffold(
       appBar: AppBar(title: Text('Saldomu')),
@@ -109,27 +113,10 @@ class BalancePage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: FutureBuilder(
-                future: storage.loadTransactions(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Terjadi kesalahan: ${snapshot.error}'),
-                    );
-                  }
-
-                  final transactions = snapshot.data ?? [];
-                  final income =
-                      transactions
-                          .where((tx) => tx.type == TransactionType.income)
-                          .toList();
-
-                  if (income.isEmpty) {
-                    return Center(child: Text('Belum ada History'));
-                  }
-
-                  return ListView.builder(
+            income.isEmpty
+                ? Expanded(child: Center(child: Text('Belum ada transaksi')))
+                : Expanded(
+                  child: ListView.builder(
                     itemCount: income.length,
                     itemBuilder: (context, index) {
                       return Card(
@@ -140,10 +127,8 @@ class BalancePage extends StatelessWidget {
                         ),
                       );
                     },
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
           ],
         ),
       ),

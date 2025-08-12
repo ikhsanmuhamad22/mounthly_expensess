@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
-import 'package:mounthly_expenses/main.dart';
 import 'package:mounthly_expenses/views/pages/balance_page.dart';
 
-class BalanceCardWidget extends StatelessWidget {
+class BalanceCardWidget extends ConsumerWidget {
   const BalanceCardWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var balance = ref.watch(txProvider).balance.toString();
+    print(balance);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(
@@ -47,27 +50,10 @@ class BalanceCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                FutureBuilder(
-                  future: storage.loadMainBalance(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Terjadi kesalahan: ${snapshot.error}'),
-                      );
-                    }
 
-                    if (snapshot.data == null) {
-                      return Center(child: Text('Kosong'));
-                    }
-
-                    return Text(
-                      formatCurrency.format(snapshot.data?.amount),
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  },
+                Text(
+                  formatCurrency.format(double.parse(balance)),
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),
 
                 Text('Rupiah', style: TextStyle(color: Colors.blueGrey)),

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
-import 'package:mounthly_expenses/main.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 import 'package:mounthly_expenses/views/widgets/custom_fieldText.dart';
 
-class ModalAddIncome extends StatefulWidget {
+class ModalAddIncome extends ConsumerStatefulWidget {
   const ModalAddIncome({super.key});
 
   @override
-  State<ModalAddIncome> createState() => _ModalAddIncomeState();
+  ConsumerState<ModalAddIncome> createState() => _ModalAddIncomeState();
 }
 
-class _ModalAddIncomeState extends State<ModalAddIncome> {
+class _ModalAddIncomeState extends ConsumerState<ModalAddIncome> {
   String generateId() {
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
@@ -92,8 +93,7 @@ class _ModalAddIncomeState extends State<ModalAddIncome> {
                               );
 
                               setState(() {
-                                storage.saveTransaction(newIncome);
-                                storage.addToMainBalance(newIncome.amount);
+                                ref.read(txProvider.notifier).addTx(newIncome);
                               });
 
                               Navigator.pop(context);

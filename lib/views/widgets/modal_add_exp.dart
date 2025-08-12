@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mounthly_expenses/data/local_storage_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 import 'package:mounthly_expenses/views/widgets/custom_fieldText.dart';
 
-final storage = LocalStorageService();
 final List<String> categories = [
   'Makanan',
   'Transportasi',
@@ -14,14 +14,14 @@ final List<String> categories = [
   'Lainnya',
 ];
 
-class ModalAddExp extends StatefulWidget {
+class ModalAddExp extends ConsumerStatefulWidget {
   const ModalAddExp({super.key});
 
   @override
-  State<ModalAddExp> createState() => _ModalAddExpState();
+  ConsumerState<ModalAddExp> createState() => _ModalAddExpState();
 }
 
-class _ModalAddExpState extends State<ModalAddExp> {
+class _ModalAddExpState extends ConsumerState<ModalAddExp> {
   String generateId() {
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
@@ -98,6 +98,20 @@ class _ModalAddExpState extends State<ModalAddExp> {
                                 return;
                               }
 
+                              final balance = ref.watch(txProvider).balance;
+
+                              if (double.parse(controllerAmount.text) >
+                                  balance) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Saldo anda tidak mencukupi, harap isi saldo dulu',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
                               final newExpense = TransactionModel(
                                 id: generateId(),
                                 detail: controllerDetail.text,
@@ -109,10 +123,7 @@ class _ModalAddExpState extends State<ModalAddExp> {
                                 type: TransactionType.expense,
                               );
                               setState(() {
-                                storage.saveTransaction(newExpense);
-                                storage.subtractFromMainBalance(
-                                  newExpense.amount,
-                                );
+                                ref.read(txProvider.notifier).addTx(newExpense);
                               });
 
                               Navigator.pop(context);

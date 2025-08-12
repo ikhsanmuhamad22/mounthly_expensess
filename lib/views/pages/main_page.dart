@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 import 'package:mounthly_expenses/views/pages/setting_page.dart';
 import 'package:mounthly_expenses/views/widgets/balance_card_widget.dart';
 import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
 import 'package:mounthly_expenses/views/widgets/modal_add_exp.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends ConsumerWidget {
   const MainPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(txProvider).tx;
+    final expense = data.where((tx) => tx.type == TransactionType.expense);
+    print('data $expense');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('keuanganmu'),
@@ -47,27 +53,10 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: FutureBuilder(
-                future: storage.loadTransactions(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Terjadi kesalahan: ${snapshot.error}'),
-                    );
-                  }
-
-                  final transactions = snapshot.data ?? [];
-                  final expense =
-                      transactions
-                          .where((tx) => tx.type == TransactionType.expense)
-                          .toList();
-
-                  if (transactions.isEmpty) {
-                    return Center(child: Text('Belum ada transaksi'));
-                  }
-
-                  return ListView.builder(
+            expense.isEmpty
+                ? Expanded(child: Center(child: Text('Belum ada transaksi')))
+                : Expanded(
+                  child: ListView.builder(
                     itemCount: expense.length,
                     itemBuilder: (context, index) {
                       return Card(
@@ -78,10 +67,8 @@ class MainPage extends StatelessWidget {
                         ),
                       );
                     },
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
           ],
         ),
       ),
