@@ -14,7 +14,6 @@ class MainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(txProvider).tx;
     final expense = data.where((tx) => tx.type == TransactionType.expense);
-    print('data $expense');
 
     return Scaffold(
       appBar: AppBar(

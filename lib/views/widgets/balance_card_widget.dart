@@ -10,7 +10,6 @@ class BalanceCardWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var balance = ref.watch(txProvider).balance.toString();
-    print(balance);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(
