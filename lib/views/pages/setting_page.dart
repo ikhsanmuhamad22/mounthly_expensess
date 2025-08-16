@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/tx_service.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends ConsumerWidget {
   const SettingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: Text('Pengaturan')),
       body: Padding(
@@ -31,7 +33,34 @@ class SettingPage extends StatelessWidget {
               title: Text('Reset Data'),
               leading: Icon(Icons.restore),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Apakah Kamu yakin'),
+                        content: Text(
+                          'Semua data kamu akan hilang ketika kamu meresetnya',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Batal'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ref.read(txProvider.notifier).clearStorage();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 icon: Icon(Icons.arrow_forward_ios_rounded, size: 16),
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/data/tx_service.dart';
-import 'package:mounthly_expenses/views/widgets/custom_fieldText.dart';
+import 'package:mounthly_expenses/views/widgets/custom_fieldtext.dart';
 
 class ModalAddIncome extends ConsumerStatefulWidget {
   const ModalAddIncome({super.key});
@@ -49,7 +49,7 @@ class _ModalAddIncomeState extends ConsumerState<ModalAddIncome> {
                     ),
                     SizedBox(height: 20),
                     CustomFieldtext(
-                      title: 'Berapa',
+                      title: 'Berapa ?',
                       controller: controllerAmount,
                     ),
                     CustomFieldtext(

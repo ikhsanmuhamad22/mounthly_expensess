@@ -15,6 +15,8 @@ class CustomFieldtext extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
+        keyboardType:
+            title == 'Berapa ?' ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           hintText: title,
           hintStyle: TextStyle(fontSize: 16),

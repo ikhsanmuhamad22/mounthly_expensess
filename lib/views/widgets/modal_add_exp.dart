@@ -97,9 +97,7 @@ class _ModalAddExpState extends ConsumerState<ModalAddExp> {
                                 );
                                 return;
                               }
-
                               final balance = ref.watch(txProvider).balance;
-
                               if (double.parse(controllerAmount.text) >
                                   balance) {
                                 ScaffoldMessenger.of(context).showSnackBar(
