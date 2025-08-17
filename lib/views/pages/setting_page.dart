@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/currency_provider.dart';
 import 'package:mounthly_expenses/data/theme_provider.dart';
 import 'package:mounthly_expenses/data/tx_provider.dart';
 
-class SettingPage extends ConsumerStatefulWidget {
+class SettingPage extends ConsumerWidget {
   const SettingPage({super.key});
 
   @override
-  ConsumerState<SettingPage> createState() => _SettingPageState();
-}
-
-class _SettingPageState extends ConsumerState<SettingPage> {
-  @override
-  Widget build(BuildContext context) {
-    Brightness selectedTheme = ref.watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: Text('Pengaturan')),
       body: Padding(
@@ -30,7 +25,6 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Center(child: Text('Pilih tema anda')),
-
                         content: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -38,16 +32,13 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                               children: [
                                 Radio.adaptive(
                                   value: Brightness.light,
-                                  groupValue: selectedTheme,
+                                  groupValue: ref.watch(themeProvider),
                                   onChanged: (value) {
-                                    setState(() {
-                                      if (value != null) {
-                                        selectedTheme = value;
-                                        ref
-                                            .read(themeProvider.notifier)
-                                            .setTheme(value);
-                                      }
-                                    });
+                                    if (value != null) {
+                                      ref
+                                          .read(themeProvider.notifier)
+                                          .setTheme(value);
+                                    }
                                   },
                                 ),
                                 Text('Terang'),
@@ -58,16 +49,13 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                               children: [
                                 Radio.adaptive(
                                   value: Brightness.dark,
-                                  groupValue: selectedTheme,
+                                  groupValue: ref.watch(themeProvider),
                                   onChanged: (value) {
-                                    setState(() {
-                                      if (value != null) {
-                                        selectedTheme = value;
-                                        ref
-                                            .read(themeProvider.notifier)
-                                            .setTheme(value);
-                                      }
-                                    });
+                                    if (value != null) {
+                                      ref
+                                          .read(themeProvider.notifier)
+                                          .setTheme(value);
+                                    }
                                   },
                                 ),
                                 Text('Gelap'),
@@ -78,7 +66,6 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              ref.read(txProvider.notifier).clearStorage();
                               Navigator.of(context).pop();
                             },
                             child: Text('OK'),
@@ -95,7 +82,62 @@ class _SettingPageState extends ConsumerState<SettingPage> {
               title: Text('Mata uang'),
               leading: Icon(Icons.attach_money),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Pilih Mata uang')),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Radio<String>.adaptive(
+                                  value: 'Rupiah',
+                                  groupValue: ref.watch(currencyProvider),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      ref
+                                          .read(currencyProvider.notifier)
+                                          .setCurrency(value);
+                                    }
+                                  },
+                                ),
+                                Text('Rupiah'),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Radio<String>.adaptive(
+                                  value: 'Dollar',
+                                  groupValue: ref.watch(currencyProvider),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      ref
+                                          .read(currencyProvider.notifier)
+                                          .setCurrency(value);
+                                    }
+                                  },
+                                ),
+                                Text('Dollar'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 icon: Icon(Icons.arrow_forward_ios_rounded, size: 16),
               ),
             ),

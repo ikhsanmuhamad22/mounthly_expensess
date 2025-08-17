@@ -1,6 +1,7 @@
 import 'package:awesome_circular_chart/awesome_circular_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/currency_provider.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
@@ -33,6 +34,7 @@ class BalancePage extends ConsumerWidget {
     var expenseByCategoryPercentage =
         ref.watch(txProvider).expenseByCategoryPercentage;
     var income = data.where((tx) => tx.type == TransactionType.income);
+    final currency = ref.watch(currencyProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text('Saldomu')),
@@ -79,7 +81,9 @@ class BalancePage extends ConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    '+ ${formatCurrency.format(totalIncome)}',
+                                    currency == 'Rupiah'
+                                        ? '+ ${formatRupiah.format(totalIncome)}'
+                                        : '+ ${formatDollar.format(totalIncome)}',
                                   ),
                                 ],
                               ),
@@ -93,7 +97,9 @@ class BalancePage extends ConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    '- ${formatCurrency.format(totalExpense)}',
+                                    currency == 'Rupiah'
+                                        ? '- ${formatRupiah.format(totalExpense)}'
+                                        : '- ${formatDollar.format(totalExpense)}',
                                   ),
                                 ],
                               ),

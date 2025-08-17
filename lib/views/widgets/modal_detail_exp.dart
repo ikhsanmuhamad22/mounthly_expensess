@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/currency_provider.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
 
-class ModalDetailExp extends StatelessWidget {
+class ModalDetailExp extends ConsumerWidget {
   const ModalDetailExp({
     super.key,
     required this.transactions,
@@ -13,7 +15,8 @@ class ModalDetailExp extends StatelessWidget {
   final TransactionType type;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
     return GestureDetector(
       onTap: () {
         showBottomSheet(
@@ -55,7 +58,9 @@ class ModalDetailExp extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '- ${formatCurrency.format(transactions.amount)}',
+                      currency == 'Rupiah'
+                          ? '+ ${formatRupiah.format(transactions.amount)}'
+                          : '+ ${formatDollar.format(transactions.amount)}',
                       style: TextStyle(fontSize: 24),
                     ),
                     SizedBox(height: 20),
@@ -82,8 +87,8 @@ class ModalDetailExp extends StatelessWidget {
         leading: Icon(Icons.folder_outlined),
         trailing: Text(
           type == TransactionType.expense
-              ? '- ${formatCurrency.format(transactions.amount)}'
-              : '+ ${formatCurrency.format(transactions.amount)}',
+              ? '- ${currency == 'Rupah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}'
+              : '+ ${currency == 'Rupah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}',
         ),
       ),
     );

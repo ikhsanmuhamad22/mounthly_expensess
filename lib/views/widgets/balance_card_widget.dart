@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mounthly_expenses/data/currency_provider.dart';
 import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
 import 'package:mounthly_expenses/views/pages/balance_page.dart';
@@ -10,6 +11,7 @@ class BalanceCardWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var balance = ref.watch(txProvider).balance.toString();
+    final currency = ref.watch(currencyProvider);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(
@@ -51,11 +53,16 @@ class BalanceCardWidget extends ConsumerWidget {
                 ),
 
                 Text(
-                  formatCurrency.format(double.parse(balance)),
+                  currency == 'Rupiah'
+                      ? formatRupiah.format(double.parse(balance))
+                      : formatDollar.format(double.parse(balance)),
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),
 
-                Text('Rupiah', style: TextStyle(color: Colors.blueGrey)),
+                Text(
+                  currency == 'Rupiah' ? 'Rupiah' : 'Us Dollar',
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
               ],
             ),
           ),
