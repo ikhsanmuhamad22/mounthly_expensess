@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
@@ -52,7 +53,11 @@ class TxState {
     tx: (json['tx'] as List).map((e) => TransactionModel.fromJson(e)).toList(),
   );
 
-  TxState copyWith({double? balance, List<TransactionModel>? tx}) {
+  TxState copyWith({
+    double? balance,
+    List<TransactionModel>? tx,
+    Brightness? theme,
+  }) {
     return TxState(balance: balance ?? this.balance, tx: tx ?? this.tx);
   }
 }

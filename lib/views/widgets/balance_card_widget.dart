@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mounthly_expenses/data/tx_service.dart';
+import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
 import 'package:mounthly_expenses/views/pages/balance_page.dart';
 

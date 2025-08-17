@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ExpensePersentaseWidget extends StatelessWidget {
   const ExpensePersentaseWidget({super.key, required this.data});
@@ -29,7 +28,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Makanan'] != null ? data['Makanan']!.toStringAsFixed(1) : 0} %',
+                      '${data['Makanan'] != null ? data['Makanan']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -44,7 +43,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Transportasi'] != null ? data['Transportasi']!.toStringAsFixed(1) : 0} %',
+                      '${data['Transportasi'] != null ? data['Transportasi']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -59,7 +58,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Belanja'] != null ? data['Belanja']!.toStringAsFixed(1) : 0} %',
+                      '${data['Belanja'] != null ? data['Belanja']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -74,7 +73,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Hiburan'] != null ? data['Hiburan']!.toStringAsFixed(1) : 0} %',
+                      '${data['Hiburan'] != null ? data['Hiburan']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -89,7 +88,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Tagihan'] != null ? data['Tagihan']!.toStringAsFixed(1) : 0} %',
+                      '${data['Tagihan'] != null ? data['Tagihan']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -104,7 +103,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Kesehatan'] != null ? data['Kesehatan']!.toStringAsFixed(1) : 0} %',
+                      '${data['Kesehatan'] != null ? data['Kesehatan']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),
@@ -119,7 +118,7 @@ class ExpensePersentaseWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${data['Lainnya'] != null ? data['Lainnya']!.toStringAsFixed(1) : 0} %',
+                      '${data['Lainnya'] != null ? data['Lainnya']!.toStringAsFixed(0) : 0} %',
                     ),
                   ],
                 ),

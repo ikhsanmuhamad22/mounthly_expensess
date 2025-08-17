@@ -2,7 +2,7 @@ import 'package:awesome_circular_chart/awesome_circular_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
-import 'package:mounthly_expenses/data/tx_service.dart';
+import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
 import 'package:mounthly_expenses/views/widgets/expense_persentase_widget.dart';
 import 'package:mounthly_expenses/views/widgets/modal_add_income.dart';
@@ -103,21 +103,30 @@ class BalancePage extends ConsumerWidget {
                         Row(
                           children: [
                             expenseByCategoryPercentage.isEmpty
-                                ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0,
-                                  ),
-                                  child: CircleAvatar(
-                                    radius: 60,
-                                    child: Text('Kosong'),
+                                ? Expanded(
+                                  flex: 5,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      child: Text('Kosong'),
+                                    ),
                                   ),
                                 )
-                                : PieChartWidget(
-                                  chartKey: chartKey,
-                                  data: expenseByCategoryPercentage,
+                                : Expanded(
+                                  flex: 5,
+                                  child: PieChartWidget(
+                                    chartKey: chartKey,
+                                    data: expenseByCategoryPercentage,
+                                  ),
                                 ),
-                            ExpensePersentaseWidget(
-                              data: expenseByCategoryPercentage,
+                            Expanded(
+                              flex: 5,
+                              child: ExpensePersentaseWidget(
+                                data: expenseByCategoryPercentage,
+                              ),
                             ),
                           ],
                         ),
@@ -144,7 +153,7 @@ class BalancePage extends ConsumerWidget {
               ),
             ),
             income.isEmpty
-                ? Expanded(child: Center(child: Text('Belum ada transaksi')))
+                ? Expanded(child: Center(child: Text('Belum ada riwayat')))
                 : Expanded(
                   child: ListView.builder(
                     itemCount: income.length,

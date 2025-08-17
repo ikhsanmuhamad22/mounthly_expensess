@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
-import 'package:mounthly_expenses/data/tx_service.dart';
+import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/views/pages/setting_page.dart';
 import 'package:mounthly_expenses/views/widgets/balance_card_widget.dart';
 import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
