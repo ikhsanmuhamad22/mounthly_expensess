@@ -1,0 +1,60 @@
+import 'package:mounthly_expenses/data/models/tx_model.dart';
+
+final List<TransactionModel> dummyTransactions = [
+  TransactionModel(
+    id: 'tx1',
+    amount: 50000,
+    detail: 'Makan siang di warung',
+    date: DateTime.now().subtract(Duration(days: 1)),
+    category: 'Makanan',
+    type: TransactionType.expense,
+  ),
+  TransactionModel(
+    id: 'tx2',
+    amount: 150000,
+    detail: 'Beli pakaian',
+    date: DateTime.now().subtract(Duration(days: 2)),
+    category: 'Belanja',
+    type: TransactionType.expense,
+  ),
+  TransactionModel(
+    id: 'tx3',
+    amount: 5000000,
+    detail: 'Gaji Bulanan',
+    date: DateTime.now().subtract(Duration(days: 3)),
+    category: 'Lainnya',
+    type: TransactionType.income,
+  ),
+  TransactionModel(
+    id: 'tx4',
+    amount: 75000,
+    detail: 'Ongkos taksi',
+    date: DateTime.now().subtract(Duration(days: 4)),
+    category: 'Transportasi',
+    type: TransactionType.expense,
+  ),
+  TransactionModel(
+    id: 'tx5',
+    amount: 200000,
+    detail: 'Bonus Project',
+    date: DateTime.now().subtract(Duration(days: 5)),
+    category: 'Lainnya',
+    type: TransactionType.income,
+  ),
+  TransactionModel(
+    id: 'tx6',
+    amount: 100000,
+    detail: 'Bayar listrik',
+    date: DateTime.now().subtract(Duration(days: 6)),
+    category: 'Tagihan',
+    type: TransactionType.expense,
+  ),
+  TransactionModel(
+    id: 'tx7',
+    amount: 30000,
+    detail: 'Beli obat flu',
+    date: DateTime.now().subtract(Duration(days: 7)),
+    category: 'Kesehatan',
+    type: TransactionType.expense,
+  ),
+];
