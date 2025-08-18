@@ -4,8 +4,8 @@ import 'package:mounthly_expenses/data/currency_provider.dart';
 import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/data/utils/formatter.dart';
 
-class ModalDetailExp extends ConsumerWidget {
-  const ModalDetailExp({
+class ModalDetail extends ConsumerWidget {
+  const ModalDetail({
     super.key,
     required this.transactions,
     required this.type,
@@ -19,7 +19,7 @@ class ModalDetailExp extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     return GestureDetector(
       onTap: () {
-        showBottomSheet(
+        showModalBottomSheet(
           context: context,
           builder: (context) {
             return Container(
@@ -53,13 +53,27 @@ class ModalDetailExp extends ConsumerWidget {
                             transactions.detail,
                             style: TextStyle(fontSize: 16),
                           ),
-                          Text(transactions.date.timeZoneName),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(timeFormat.format(transactions.date)),
+                              Text(
+                                dateFormat.format(transactions.date),
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                     Text(
                       currency == 'Rupiah'
-                          ? '+ ${formatRupiah.format(transactions.amount)}'
+                          ? type == TransactionType.expense
+                              ? '- ${formatRupiah.format(transactions.amount)}'
+                              : '+ ${formatRupiah.format(transactions.amount)}'
+                          : type == TransactionType.expense
+                          ? '- ${formatDollar.format(transactions.amount)}'
                           : '+ ${formatDollar.format(transactions.amount)}',
                       style: TextStyle(fontSize: 24),
                     ),
@@ -87,8 +101,8 @@ class ModalDetailExp extends ConsumerWidget {
         leading: Icon(Icons.folder_outlined),
         trailing: Text(
           type == TransactionType.expense
-              ? '- ${currency == 'Rupah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}'
-              : '+ ${currency == 'Rupah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}',
+              ? '- ${currency == 'Rupiah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}'
+              : '+ ${currency == 'Rupiah' ? formatRupiah.format(transactions.amount) : formatDollar.format(transactions.amount)}',
         ),
       ),
     );

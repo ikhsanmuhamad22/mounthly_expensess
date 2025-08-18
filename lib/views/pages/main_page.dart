@@ -4,8 +4,8 @@ import 'package:mounthly_expenses/data/models/tx_model.dart';
 import 'package:mounthly_expenses/data/tx_provider.dart';
 import 'package:mounthly_expenses/views/pages/setting_page.dart';
 import 'package:mounthly_expenses/views/widgets/balance_card_widget.dart';
-import 'package:mounthly_expenses/views/widgets/modal_detail_exp.dart';
 import 'package:mounthly_expenses/views/widgets/modal_add_exp.dart';
+import 'package:mounthly_expenses/views/widgets/modal_detail.dart';
 
 class MainPage extends ConsumerWidget {
   const MainPage({super.key});
@@ -60,7 +60,7 @@ class MainPage extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 4),
-                        child: ModalDetailExp(
+                        child: ModalDetail(
                           transactions: expense.elementAt(index),
                           type: TransactionType.expense,
                         ),

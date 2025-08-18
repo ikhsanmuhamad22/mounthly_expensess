@@ -10,5 +10,8 @@ final formatRupiah = NumberFormat.currency(
 final formatDollar = NumberFormat.currency(
   locale: 'en_US',
   symbol: '\$',
-  decimalDigits: 2, // biasanya pakai 2 digit untuk cents
+  decimalDigits: 2,
 );
+
+final dateFormat = DateFormat('dd/MM/yyyy');
+final timeFormat = DateFormat('HH:mm');

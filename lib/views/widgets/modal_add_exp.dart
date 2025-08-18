@@ -134,6 +134,7 @@ class _ModalAddExpState extends ConsumerState<ModalAddExp> {
                                         .addTx(newExpense);
                                     controllerAmount.text = '';
                                     controllerDetail.text = '';
+                                    selectedCategory = categories.first;
                                   });
 
                                   Navigator.pop(context);

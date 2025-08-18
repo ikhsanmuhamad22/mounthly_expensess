@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomFieldtext extends StatelessWidget {
   const CustomFieldtext({
@@ -15,6 +16,7 @@ class CustomFieldtext extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
+        inputFormatters: [LengthLimitingTextInputFormatter(20)],
         keyboardType:
             title == 'Berapa ?' ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
