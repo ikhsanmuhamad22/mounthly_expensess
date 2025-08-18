@@ -9,6 +9,8 @@ class SettingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCurrency = ref.watch(currencyProvider);
+    print(selectedCurrency);
     return Scaffold(
       appBar: AppBar(title: Text('Pengaturan')),
       body: Padding(
@@ -27,41 +29,25 @@ class SettingPage extends ConsumerWidget {
                         title: Center(child: Text('Pilih tema anda')),
                         content: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Radio.adaptive(
-                                  value: Brightness.light,
-                                  groupValue: ref.watch(themeProvider),
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      ref
-                                          .read(themeProvider.notifier)
-                                          .setTheme(value);
-                                    }
-                                  },
-                                ),
-                                Text('Terang'),
-                              ],
-                            ),
-                            SizedBox(width: 20),
-                            Row(
-                              children: [
-                                Radio.adaptive(
-                                  value: Brightness.dark,
-                                  groupValue: ref.watch(themeProvider),
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      ref
-                                          .read(themeProvider.notifier)
-                                          .setTheme(value);
-                                    }
-                                  },
-                                ),
-                                Text('Gelap'),
-                              ],
-                            ),
-                          ],
+                          children:
+                              themes.map((t) {
+                                return Row(
+                                  children: [
+                                    Radio.adaptive(
+                                      value: t,
+                                      groupValue: ref.watch(themeProvider),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          ref
+                                              .read(themeProvider.notifier)
+                                              .setTheme(value);
+                                        }
+                                      },
+                                    ),
+                                    Text(t.name),
+                                  ],
+                                );
+                              }).toList(),
                         ),
                         actions: [
                           TextButton(
@@ -88,52 +74,31 @@ class SettingPage extends ConsumerWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Center(child: Text('Pilih Mata uang')),
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Radio<String>.adaptive(
-                                  value: 'Rupiah',
-                                  groupValue: ref.watch(currencyProvider),
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      ref
-                                          .read(currencyProvider.notifier)
-                                          .setCurrency(value);
-                                    }
-                                  },
-                                ),
-                                Text('Rupiah'),
-                              ],
-                            ),
-                            SizedBox(width: 20),
-                            Row(
-                              children: [
-                                Radio<String>.adaptive(
-                                  value: 'Dollar',
-                                  groupValue: ref.watch(currencyProvider),
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      ref
-                                          .read(currencyProvider.notifier)
-                                          .setCurrency(value);
-                                    }
-                                  },
-                                ),
-                                Text('Dollar'),
-                              ],
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('OK'),
+                        content: SizedBox(
+                          height: 100,
+                          child: Column(
+                            children:
+                                currency.map((c) {
+                                  return Row(
+                                    children: [
+                                      Radio<String>.adaptive(
+                                        value: c,
+                                        groupValue: selectedCurrency,
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            ref
+                                                .read(currencyProvider.notifier)
+                                                .setCurrency(value);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      Text(c),
+                                    ],
+                                  );
+                                }).toList(),
                           ),
-                        ],
+                        ),
                       );
                     },
                   );
