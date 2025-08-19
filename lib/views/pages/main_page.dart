@@ -14,6 +14,7 @@ class MainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(txProvider).tx;
     final expense = data.where((tx) => tx.type == TransactionType.expense);
+    final reversedExpense = expense.toList().reversed.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -58,10 +59,11 @@ class MainPage extends ConsumerWidget {
                   child: ListView.builder(
                     itemCount: expense.length,
                     itemBuilder: (context, index) {
+                      final transaction = reversedExpense[index];
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         child: ModalDetail(
-                          transactions: expense.elementAt(index),
+                          transactions: transaction,
                           type: TransactionType.expense,
                         ),
                       );

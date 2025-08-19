@@ -34,6 +34,7 @@ class BalancePage extends ConsumerWidget {
     var expenseByCategoryPercentage =
         ref.watch(txProvider).expenseByCategoryPercentage;
     var income = data.where((tx) => tx.type == TransactionType.income);
+    final reverseIncome = income.toList().reversed.toList();
     final currency = ref.watch(currencyProvider);
 
     return Scaffold(
@@ -164,10 +165,11 @@ class BalancePage extends ConsumerWidget {
                   child: ListView.builder(
                     itemCount: income.length,
                     itemBuilder: (context, index) {
+                      var transaction = reverseIncome[index];
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         child: ModalDetail(
-                          transactions: income.elementAt(index),
+                          transactions: transaction,
                           type: TransactionType.income,
                         ),
                       );

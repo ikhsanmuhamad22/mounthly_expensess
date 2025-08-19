@@ -10,7 +10,6 @@ class SettingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCurrency = ref.watch(currencyProvider);
-    print(selectedCurrency);
     return Scaffold(
       appBar: AppBar(title: Text('Pengaturan')),
       body: Padding(
